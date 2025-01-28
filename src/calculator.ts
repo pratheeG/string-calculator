@@ -1,7 +1,7 @@
 export class Calculator {
     private getNumbers(numbers: string): number[] {
         const delimeter = ',';
-        return numbers.split(delimeter).map(Number);
+        return numbers.replace(/\n/g, delimeter).split(delimeter).map(Number);
     }
     add(numbers: string): number {
         if (!numbers) return 0;
