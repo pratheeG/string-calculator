@@ -23,5 +23,12 @@ describe('Calculator', () => {
             const totalSum = calculator.add('//;\n1;2;9');
             expect(totalSum).toBe(12);
         })
+        it('should throw an exception when the numbers contain negative digits', () => {
+            try {
+                calculator.add('//;\n1;2;-9;-6')
+            } catch (error) {
+                expect(error.message).toBe('Invalid Numbers -> -9,-6');
+            }
+        });
     });
 });

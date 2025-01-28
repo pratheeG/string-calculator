@@ -10,8 +10,18 @@ export class Calculator {
         }
         return numbers.split(delimiter).map(Number);
     }
+    private validateNumbers(numbers: number[]): boolean {
+        const negativeNumbers = numbers.filter(number => number < 0)
+        if (negativeNumbers.length) {
+            throw new Error(`Invalid Numbers -> ${negativeNumbers.toString()}`);
+        }
+        return true;
+    }
+
     add(numbers: string): number {
         if (!numbers) return 0;
+        const parsedNumbers = this.getNumbers(numbers);
+        this.validateNumbers(parsedNumbers);
         return this.getNumbers(numbers).reduce((a, b) => a + b, 0);
     }
 }
