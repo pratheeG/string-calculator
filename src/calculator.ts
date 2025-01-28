@@ -1,16 +1,32 @@
 export class Calculator {
     allowedMaxNumber = 1000;
     private getNumbers(numbers: string): number[] {
-        let delimiter = /[,\n]/;
+        let delimiters: string[] = ['\n'];
+    
         if (numbers.startsWith('//')) {
-            const [lineSeperator, splitedNumbers] = numbers.split('\n', 2);
-            const customDelimiter = lineSeperator.slice(2).replace(/\[|\]/g, '');
+            const [delimiterLine, remainingNumbers] = numbers.split('\n', 2);
+            const customDelimiter = delimiterLine.slice(2);
+            
+            if (customDelimiter.startsWith('[') && customDelimiter.endsWith(']')) {
+                delimiters = customDelimiter
+                    .slice(1, -1) 
+                    .split(']['); 
+            } else {
+                delimiters.push(customDelimiter);
+            }
 
-            delimiter = new RegExp(`[${customDelimiter}\n]`, 'g');
-            numbers = splitedNumbers;
+            numbers = remainingNumbers;
         }
-        return numbers.split(delimiter).map(Number).filter(num => num <= this.allowedMaxNumber);
+
+        delimiters.forEach(delimiter => {
+            while(numbers.indexOf(delimiter) > -1) {
+                numbers = numbers.replace(delimiter, ',');
+            }
+        })
+        const parsedNumbers = numbers.split(',').map(Number);
+        return parsedNumbers.filter(num => num <= this.allowedMaxNumber);
     }
+    
     private validateNumbers(numbers: number[]): boolean {
         const negativeNumbers = numbers.filter(number => number < 0)
         if (negativeNumbers.length) {

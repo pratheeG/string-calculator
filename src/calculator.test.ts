@@ -42,9 +42,13 @@ describe('Calculator', () => {
         })
 
         it('should add the numbers by with multiple delimiters', () => {
-            const totalSum = calculator.add('//[*][&]\n1*2&9*1002');
-            console.log('totalSum ', totalSum);
-            expect(totalSum).toBe(12);
+            const totalSum = calculator.add('//[*][&][@]\n1*2&9*1002@9');
+            expect(totalSum).toBe(21);
+        })
+
+        it('should add the numbers by with multiple delimiters of any length', () => {
+            const totalSum = calculator.add('//[**][&&]\n1**2&&9**12');
+            expect(totalSum).toBe(24);
         })
 
     });
