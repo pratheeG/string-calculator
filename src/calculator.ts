@@ -1,7 +1,14 @@
 export class Calculator {
     private getNumbers(numbers: string): number[] {
-        const delimeter = ',';
-        return numbers.replace(/\n/g, delimeter).split(delimeter).map(Number);
+        let delimiter = /[,\n]/;
+        if (numbers.startsWith('//')) {
+            const [lineSeperator, splitedNumbers] = numbers.split('\n', 2);
+            const customDelimiter = lineSeperator.slice(2);
+
+            delimiter = new RegExp(`[${customDelimiter},\n]`, 'g');
+            numbers = splitedNumbers;
+        }
+        return numbers.split(delimiter).map(Number);
     }
     add(numbers: string): number {
         if (!numbers) return 0;
