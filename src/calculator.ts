@@ -4,7 +4,7 @@ export class Calculator {
         let delimiter = /[,\n]/;
         if (numbers.startsWith('//')) {
             const [lineSeperator, splitedNumbers] = numbers.split('\n', 2);
-            const customDelimiter = lineSeperator.slice(2);
+            const customDelimiter = lineSeperator.slice(2).replace(/\[|\]/g, '');
 
             delimiter = new RegExp(`[${customDelimiter},\n]`, 'g');
             numbers = splitedNumbers;
