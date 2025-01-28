@@ -6,7 +6,7 @@ export class Calculator {
             const [lineSeperator, splitedNumbers] = numbers.split('\n', 2);
             const customDelimiter = lineSeperator.slice(2).replace(/\[|\]/g, '');
 
-            delimiter = new RegExp(`[${customDelimiter},\n]`, 'g');
+            delimiter = new RegExp(`[${customDelimiter}\n]`, 'g');
             numbers = splitedNumbers;
         }
         return numbers.split(delimiter).map(Number).filter(num => num <= this.allowedMaxNumber);

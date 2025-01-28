@@ -41,5 +41,11 @@ describe('Calculator', () => {
             expect(totalSum).toBe(12);
         })
 
+        it('should add the numbers by with multiple delimiters', () => {
+            const totalSum = calculator.add('//[*][&]\n1*2&9*1002');
+            console.log('totalSum ', totalSum);
+            expect(totalSum).toBe(12);
+        })
+
     });
 });
