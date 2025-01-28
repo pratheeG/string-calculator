@@ -1,4 +1,5 @@
 export class Calculator {
+    allowedMaxNumber = 1000;
     private getNumbers(numbers: string): number[] {
         let delimiter = /[,\n]/;
         if (numbers.startsWith('//')) {
@@ -8,7 +9,7 @@ export class Calculator {
             delimiter = new RegExp(`[${customDelimiter},\n]`, 'g');
             numbers = splitedNumbers;
         }
-        return numbers.split(delimiter).map(Number);
+        return numbers.split(delimiter).map(Number).filter(num => num <= this.allowedMaxNumber);
     }
     private validateNumbers(numbers: number[]): boolean {
         const negativeNumbers = numbers.filter(number => number < 0)

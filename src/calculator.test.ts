@@ -30,5 +30,11 @@ describe('Calculator', () => {
                 expect(error.message).toBe('Invalid Numbers -> -9,-6');
             }
         });
+        
+        it('should add the numbers by skipping the max number', () => {
+            const totalSum = calculator.add('//;\n1;2;9;1002');
+            expect(totalSum).toBe(12);
+        })
+
     });
 });
