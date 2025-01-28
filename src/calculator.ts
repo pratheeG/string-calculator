@@ -1,8 +1,7 @@
 export class Calculator {
     allowedMaxNumber = 1000;
-    private getNumbers(numbers: string): number[] {
+    private extractNumbers(numbers: string) {
         let delimiters: string[] = ['\n'];
-    
         if (numbers.startsWith('//')) {
             const [delimiterLine, remainingNumbers] = numbers.split('\n', 2);
             const customDelimiter = delimiterLine.slice(2);
@@ -17,13 +16,16 @@ export class Calculator {
 
             numbers = remainingNumbers;
         }
-
         delimiters.forEach(delimiter => {
             while(numbers.indexOf(delimiter) > -1) {
                 numbers = numbers.replace(delimiter, ',');
             }
         })
-        const parsedNumbers = numbers.split(',').map(Number);
+        return  numbers ;
+    }
+
+    private getNumbers(numbers: string): number[] {
+        const parsedNumbers = this.extractNumbers(numbers).split(',').map(Number);
         return parsedNumbers.filter(num => num <= this.allowedMaxNumber);
     }
     
@@ -39,6 +41,6 @@ export class Calculator {
         if (!numbers) return 0;
         const parsedNumbers = this.getNumbers(numbers);
         this.validateNumbers(parsedNumbers);
-        return this.getNumbers(numbers).reduce((a, b) => a + b, 0);
+        return parsedNumbers.reduce((num1, num2) => num1 + num2, 0);
     }
 }
