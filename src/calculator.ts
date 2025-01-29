@@ -1,6 +1,6 @@
 export class Calculator {
     allowedMaxNumber = 1000;
-    private extractNumbers(numbers: string) {
+    private extractNumbers(numbers: string):number[] {
         let delimiters: string[] = ['\n'];
         if (numbers.startsWith('//')) {
             const [delimiterLine, remainingNumbers] = numbers.split('\n', 2);
@@ -21,15 +21,18 @@ export class Calculator {
                 numbers = numbers.replace(delimiter, ',');
             }
         })
-        return  numbers ;
+        return  numbers.split(',').map(Number);
     }
 
     private getNumbers(numbers: string): number[] {
-        const parsedNumbers = this.extractNumbers(numbers).split(',').map(Number);
+        const parsedNumbers = this.extractNumbers(numbers);
+        if (parsedNumbers.some((number) => isNaN(number))) {
+            throw new Error('Invalid Input');
+        }
         return parsedNumbers.filter(num => num <= this.allowedMaxNumber);
     }
     
-    private validateNumbers(numbers: number[]): boolean {
+    private checkForNegativeNumbers (numbers: number[]): boolean {
         const negativeNumbers = numbers.filter(number => number < 0)
         if (negativeNumbers.length) {
             throw new Error(`Invalid Numbers -> ${negativeNumbers.toString()}`);
@@ -40,7 +43,7 @@ export class Calculator {
     add(numbers: string): number {
         if (!numbers) return 0;
         const parsedNumbers = this.getNumbers(numbers);
-        this.validateNumbers(parsedNumbers);
+        this.checkForNegativeNumbers(parsedNumbers);
         return parsedNumbers.reduce((num1, num2) => num1 + num2, 0);
     }
 }

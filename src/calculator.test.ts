@@ -40,6 +40,13 @@ describe('Calculator', () => {
             const totalSum = calculator.add('//[**]\n1**2**9**1002');
             expect(totalSum).toBe(12);
         })
+        it('should throw error if the delimiter are not matach', () => {
+            try {
+                calculator.add('//[**]\n1**2**9*1002');
+            } catch (error) {
+                expect(error.message).toBe('Invalid Input');
+            }
+        })
 
         it('should add the numbers by with multiple delimiters', () => {
             const totalSum = calculator.add('//[*][&][@]\n1*2&9*1002@9');
